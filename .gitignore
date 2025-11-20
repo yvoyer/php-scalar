@@ -1,0 +1,9 @@
+phpunit.xml
+.phpunit.result.cache
+phpcs.xml
+infection-log.txt
+infection.json
+composer.lock
+/bin/*
+/vendor
+.idea

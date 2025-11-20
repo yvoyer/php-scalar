@@ -22,6 +22,7 @@
     },
     "require": {
         "php": "^7.1",
+        "ext-bcmath": "^7.4",
         "league/fractal": "^0.19.2"
     },
     "require-dev": {
@@ -35,6 +36,6 @@
     },
     "config": {
         "bin-dir": "bin",
-        "sort-package": true
+        "sort-packages": true
     }
 }

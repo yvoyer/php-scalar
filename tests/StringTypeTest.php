@@ -1,52 +1,51 @@
 <?php declare(strict_types=1);
 
-namespace Star\Component\PhpType\Core;
+namespace Star\Component\PhpType;
 
 use PHPUnit\Framework\TestCase;
-use Star\Component\PhpType\TypeCastNotSupported;
 
-final class StringObjectTest extends TestCase {
+final class StringTypeTest extends TestCase {
     public function test_it_should_not_support_float_type_cast(): void
     {
         $this->expectException(TypeCastNotSupported::class);
         $this->expectExceptionMessage('Type "string(something)" cannot be casted to "float".');
-        StringObject::fromString('something')->cast()->toFloat();
+        StringType::fromString('something')->toFloat();
     }
 
     public function test_it_should_not_support_int_type_cast(): void
     {
         $this->expectException(TypeCastNotSupported::class);
         $this->expectExceptionMessage('Type "string(something)" cannot be casted to "integer".');
-        StringObject::fromString('something')->cast()->toInt();
+        StringType::fromString('something')->cast()->toInt();
     }
 
     public function test_it_should_not_support_bool_type_cast(): void
     {
         $this->expectException(TypeCastNotSupported::class);
         $this->expectExceptionMessage('Type "string(something)" cannot be casted to "boolean".');
-        StringObject::fromString('something')->cast()->toBool();
+        StringType::fromString('something')->cast()->toBool();
     }
 
     public function test_it_should_support_float_type_cast(): void
     {
-        $this->assertSame(12.34, StringObject::fromString('12.34')->cast()->toFloat());
+        $this->assertSame(12.34, StringType::fromString('12.34')->cast()->toFloat());
     }
 
     public function test_it_should_not_support_string_type_cast(): void
     {
-        $this->assertSame('something', StringObject::fromString('something')->cast()->toString());
+        $this->assertSame('something', StringType::fromString('something')->cast()->toString());
     }
 
     public function test_it_should_not_support_array_type_cast(): void
     {
-        $this->assertSame(['something'], StringObject::fromString('something')->cast()->toArray());
+        $this->assertSame(['something'], StringType::fromString('something')->cast()->toArray());
     }
 
     public function test_it_should_return_string_value_as_string(): void
     {
         $this->assertSame(
             'some string',
-            StringObject::fromString('some string')->toString()
+            StringType::fromString('some string')->toString()
         );
     }
 
@@ -70,7 +69,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             'SomE ValuZ',
-            StringObject::fromString('SomE Value')
+            StringType::fromString('SomE Value')
                 ->replaceWithCase('e', 'Z')
                 ->toString()
         );
@@ -80,7 +79,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             'SomZ ValuZ',
-            StringObject::fromString('SomE Value')
+            StringType::fromString('SomE Value')
                 ->replaceWithoutCase('e', 'Z')
                 ->toString()
         );
@@ -90,7 +89,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             6,
-            StringObject::fromString('some string')->findFirstPosition('t')->toInt()
+            StringType::fromString('some string')->findFirstPosition('t')->toInt()
         );
     }
 
@@ -98,7 +97,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             9,
-            StringObject::fromString('some value')->findLastPosition('e')->toInt()
+            StringType::fromString('some value')->findLastPosition('e')->toInt()
         );
     }
 
@@ -106,7 +105,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             11,
-            StringObject::fromString('some string')->length()->cast()->toInt()
+            StringType::fromString('some string')->length()->cast()->toInt()
         );
     }
 
@@ -114,7 +113,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             'some string',
-            StringObject::fromString('Some strIng')->toLower()->toString()
+            StringType::fromString('Some strIng')->toLower()->toString()
         );
     }
 
@@ -122,7 +121,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             'SOME STRING',
-            StringObject::fromString('Some strIng')->toUpper()->toString()
+            StringType::fromString('Some strIng')->toUpper()->toString()
         );
     }
 
@@ -130,7 +129,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             'Some strIng',
-            StringObject::fromString('some strIng')->toUpperFirst()->toString()
+            StringType::fromString('some strIng')->toUpperFirst()->toString()
         );
     }
 
@@ -138,7 +137,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             'some strIng',
-            StringObject::fromString('Some strIng')->toLowerFirst()->toString()
+            StringType::fromString('Some strIng')->toLowerFirst()->toString()
         );
     }
 
@@ -146,7 +145,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             'Some StrIng',
-            StringObject::fromString('some strIng')->toUpperWords()->toString()
+            StringType::fromString('some strIng')->toUpperWords()->toString()
         );
     }
 
@@ -154,7 +153,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             'Some strIng',
-            StringObject::fromString("Some strIng \t\n\r\0\x0B")->trim()->toString()
+            StringType::fromString("Some strIng \t\n\r\0\x0B")->trim()->toString()
         );
     }
 
@@ -162,7 +161,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             'Some strIng',
-            StringObject::fromString("Some strIng \t\n\r\0\x0B")->trimRight()->toString()
+            StringType::fromString("Some strIng \t\n\r\0\x0B")->trimRight()->toString()
         );
     }
 
@@ -170,7 +169,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             'Some strIng',
-            StringObject::fromString(" \t\n\r \vSome strIng")->trimLeft()->toString()
+            StringType::fromString(" \t\n\r \vSome strIng")->trimLeft()->toString()
         );
     }
 
@@ -178,7 +177,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             '****',
-            StringObject::fromString("*")->repeat(4)->toString()
+            StringType::fromString("*")->repeat(4)->toString()
         );
     }
 
@@ -186,11 +185,11 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             "qw\ner\nty\nui\nop\n",
-            StringObject::fromString("qwertyuiop")->split(2)->toString()
+            StringType::fromString("qwertyuiop")->split(2)->toString()
         );
         $this->assertSame(
             'qw er ty ui op ',
-            StringObject::fromString("qwertyuiop")->split(2, ' ')->toString()
+            StringType::fromString("qwertyuiop")->split(2, ' ')->toString()
         );
     }
 
@@ -199,11 +198,11 @@ final class StringObjectTest extends TestCase {
         $string = 'some long string';
         $this->assertSame(
             'array(some,long,string)',
-            StringObject::fromString($string)->explode(' ')->toTypedString()
+            StringType::fromString($string)->explode(' ')->toTypedString()
         );
         $this->assertSame(
             'array(some,long string)',
-            StringObject::fromString($string)->explode(' ', 2)->toTypedString()
+            StringType::fromString($string)->explode(' ', 2)->toTypedString()
         );
     }
 
@@ -211,7 +210,7 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             'ertyuiop',
-            StringObject::fromString("qwertyuiop")->substring(2)->toString()
+            StringType::fromString("qwertyuiop")->substring(2)->toString()
         );
     }
 
@@ -219,44 +218,44 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             'string****',
-            StringObject::fromString("string")->padRight(10, '*')->toString()
+            StringType::fromString("string")->padRight(10, '*')->toString()
         );
         $this->assertSame(
             '****string',
-            StringObject::fromString("string")->padLeft(10, '*')->toString()
+            StringType::fromString("string")->padLeft(10, '*')->toString()
         );
         $this->assertSame(
             '**string**',
-            StringObject::fromString("string")->pad(10, '*')->toString()
+            StringType::fromString("string")->pad(10, '*')->toString()
         );
         $this->assertSame(
             'string    ',
-            StringObject::fromString("string")->padRight(10)->toString()
+            StringType::fromString("string")->padRight(10)->toString()
         );
         $this->assertSame(
             '    string',
-            StringObject::fromString("string")->padLeft(10)->toString()
+            StringType::fromString("string")->padLeft(10)->toString()
         );
         $this->assertSame(
             '  string  ',
-            StringObject::fromString("string")->pad(10)->toString()
+            StringType::fromString("string")->pad(10)->toString()
         );
     }
 
     public function test_equals(): void
     {
         $this->assertTrue(
-            StringObject::fromString('string')->equals('string')
+            StringType::fromString('string')->equals('string')
         );
         $this->assertFalse(
-            StringObject::fromString('string')->equals('String')
+            StringType::fromString('string')->equals('String')
         );
     }
 
     public function test_shuffle(): void
     {
         $this->assertFalse(
-            StringObject::fromString('string')->shuffle()->equals('string')
+            StringType::fromString('string')->shuffle()->equals('string')
         );
     }
 
@@ -264,37 +263,37 @@ final class StringObjectTest extends TestCase {
     {
         $this->assertSame(
             'gnirts',
-            StringObject::fromString('string')->reverse()->toString()
+            StringType::fromString('string')->reverse()->toString()
         );
     }
 
     public function test_starts_with(): void
     {
         $this->assertTrue(
-            StringObject::fromString('string')->startsWith('s')
+            StringType::fromString('string')->startsWith('s')
         );
         $this->assertFalse(
-            StringObject::fromString('string')->startsWith('r')
+            StringType::fromString('string')->startsWith('r')
         );
     }
 
     public function test_ends_with(): void
     {
         $this->assertTrue(
-            StringObject::fromString('string')->endsWith('g')
+            StringType::fromString('string')->endsWith('g')
         );
         $this->assertFalse(
-            StringObject::fromString('string')->endsWith('t')
+            StringType::fromString('string')->endsWith('t')
         );
     }
 
     public function test_contains(): void
     {
         $this->assertTrue(
-            StringObject::fromString('string')->contains('r')
+            StringType::fromString('string')->contains('r')
         );
         $this->assertFalse(
-            StringObject::fromString('string')->contains('w')
+            StringType::fromString('string')->contains('w')
         );
     }
 }

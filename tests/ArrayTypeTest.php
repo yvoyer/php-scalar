@@ -1,17 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace Star\Component\PhpType\Core;
+namespace Star\Component\PhpType;
 
 use PHPUnit\Framework\TestCase;
 
-final class ArrayObjectTest extends TestCase
+final class ArrayTypeTest extends TestCase
 {
-
     public function test_implode(): void
     {
         $this->assertSame(
             'one two three',
-            ArrayObject::fromArray(['one', 'two', 'three'])->implode(' ')->toString()
+            ArrayType::fromArray(['one', 'two', 'three'])->implode(' ')->toString()
         );
     }
 

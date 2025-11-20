@@ -11,6 +11,4 @@ interface Type
     const TYPE_BOOL = 'boolean';
 
     public function toTypedString(): string;
-
-    public function cast(): TypeCast;
 }
